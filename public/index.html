@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI 電子音樂生成器</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">◈</div>
+      <h1>AI 電子音樂生成器</h1>
+      <p class="subtitle">用文字描述你想要的音樂情境，AI 幫你創作</p>
+    </header>
+
+    <main>
+      <!-- 情境標籤快速選擇 -->
+      <div class="tags-section">
+        <p class="tags-label">快速情境</p>
+        <div class="tags">
+          <button class="tag" data-prompt="rainy night jazz bar, melancholic saxophone, soft piano, ambient electronic">🌧 雨夜爵士酒吧</button>
+          <button class="tag" data-prompt="futuristic cyberpunk city, dark techno, heavy bass, neon lights energy">🌆 賽博龐克城市</button>
+          <button class="tag" data-prompt="deep focus work music, lo-fi beats, gentle electronic, calm and productive">🎧 深度專注工作</button>
+          <button class="tag" data-prompt="summer beach party, upbeat tropical house, cheerful synth, energetic vibes">🏖 夏日海灘派對</button>
+          <button class="tag" data-prompt="midnight drive on highway, synthwave, retro 80s electronic, nostalgic">🚗 午夜公路馳騁</button>
+          <button class="tag" data-prompt="meditation zen garden, ambient electronic, calming pads, peaceful nature sounds">🧘 冥想禪意花園</button>
+        </div>
+      </div>
+
+      <!-- 輸入區 -->
+      <div class="input-section">
+        <label for="promptInput">描述你的音樂情境</label>
+        <textarea
+          id="promptInput"
+          placeholder="例如：深夜的空曠城市，霓虹燈映在積水的街道上，帶有憂鬱感的電子合成器音樂..."
+          rows="4"
+        ></textarea>
+
+        <div class="options">
+          <label for="duration">音樂長度</label>
+          <div class="duration-buttons">
+            <button class="duration-btn active" data-value="8">8 秒</button>
+            <button class="duration-btn" data-value="15">15 秒</button>
+            <button class="duration-btn" data-value="30">30 秒</button>
+          </div>
+        </div>
+
+        <button id="generateBtn" class="generate-btn">
+          <span class="btn-icon">▶</span>
+          <span class="btn-text">生成音樂</span>
+        </button>
+      </div>
+
+      <!-- 狀態與結果 -->
+      <div id="statusSection" class="status-section hidden">
+        <div id="loadingState" class="loading-state">
+          <div class="waveform">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <p id="statusText">AI 正在創作中，請稍候...</p>
+        </div>
+
+        <div id="resultState" class="result-state hidden">
+          <div class="result-card">
+            <div class="result-header">
+              <span class="result-icon">♪</span>
+              <div class="result-info">
+                <p class="result-label">生成完成</p>
+                <p id="resultPrompt" class="result-prompt"></p>
+              </div>
+            </div>
+            <audio id="audioPlayer" controls></audio>
+            <a id="downloadBtn" class="download-btn" download="generated-music.mp3">⬇ 下載音樂</a>
+          </div>
+        </div>
+
+        <div id="errorState" class="error-state hidden">
+          <p id="errorText"></p>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>Powered by Meta MusicGen × Replicate</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
