@@ -3,87 +3,314 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI 電子音樂生成器</title>
+  <title>我的第一首電音</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
+
+    <!-- 頂部進度條 -->
     <header>
-      <div class="logo">◈</div>
-      <h1>AI 電子音樂生成器</h1>
-      <p class="subtitle">用文字描述你想要的音樂情境，AI 幫你創作</p>
+      <p class="site-label">我的第一首電音</p>
+      <div class="progress-bar">
+        <div class="progress-track">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <p class="progress-text" id="progressText">步驟 1 / 4</p>
+      </div>
     </header>
 
-    <main>
-      <!-- 情境標籤快速選擇 -->
-      <div class="tags-section">
-        <p class="tags-label">快速情境</p>
-        <div class="tags">
-          <button class="tag" data-prompt="rainy night jazz bar, melancholic saxophone, soft piano, ambient electronic">🌧 雨夜爵士酒吧</button>
-          <button class="tag" data-prompt="futuristic cyberpunk city, dark techno, heavy bass, neon lights energy">🌆 賽博龐克城市</button>
-          <button class="tag" data-prompt="deep focus work music, lo-fi beats, gentle electronic, calm and productive">🎧 深度專注工作</button>
-          <button class="tag" data-prompt="summer beach party, upbeat tropical house, cheerful synth, energetic vibes">🏖 夏日海灘派對</button>
-          <button class="tag" data-prompt="midnight drive on highway, synthwave, retro 80s electronic, nostalgic">🚗 午夜公路馳騁</button>
-          <button class="tag" data-prompt="meditation zen garden, ambient electronic, calming pads, peaceful nature sounds">🧘 冥想禪意花園</button>
+    <!-- 步驟內容區 -->
+    <main id="stepsContainer">
+
+      <!-- 步驟 0：電音基礎教學 -->
+      <div class="step active" data-step="0">
+        <div class="step-header">
+          <p class="step-number">開始之前</p>
+          <h2>一首電音是怎麼做出來的？</h2>
+          <p class="step-hint">花 1 分鐘了解電音的五個組成元素，讓你做出來的音樂更有感覺</p>
+        </div>
+
+        <div class="learn-cards">
+
+          <div class="learn-card">
+            <div class="learn-left">
+              <span class="learn-icon">🥁</span>
+              <div>
+                <p class="learn-name">節拍 Beat</p>
+                <p class="learn-role">音樂的心跳</p>
+              </div>
+            </div>
+            <p class="learn-desc">決定音樂的速度快慢，讓你想跟著點頭或踏腳。就像心跳一樣，是整首曲子的基礎。</p>
+            <div class="learn-example">📏 BPM 越高 = 越快 &nbsp;|&nbsp; 70 BPM 緩慢、140 BPM 激烈</div>
+          </div>
+
+          <div class="learn-card">
+            <div class="learn-left">
+              <span class="learn-icon">🔊</span>
+              <div>
+                <p class="learn-name">低音 Bass</p>
+                <p class="learn-role">你感受到的震動</p>
+              </div>
+            </div>
+            <p class="learn-desc">電音裡最低沉的聲音，在音樂會現場會讓你胸口感受到震動。讓音樂有厚度和力量。</p>
+            <div class="learn-example">💡 沒有 Bass 的電音像沒有地基的房子——空洞無力</div>
+          </div>
+
+          <div class="learn-card">
+            <div class="learn-left">
+              <span class="learn-icon">🎹</span>
+              <div>
+                <p class="learn-name">合成器 Synth</p>
+                <p class="learn-role">電音最獨特的聲音</p>
+              </div>
+            </div>
+            <p class="learn-desc">由機器（合成器）產生的聲音，不是真實樂器，卻能製造出自然界不存在的音色。這是電音的靈魂。</p>
+            <div class="learn-example">💡 像蜂鳴器、太空船、或光劍揮動的聲音</div>
+          </div>
+
+          <div class="learn-card">
+            <div class="learn-left">
+              <span class="learn-icon">🎵</span>
+              <div>
+                <p class="learn-name">旋律 Melody</p>
+                <p class="learn-role">你會跟著哼的那條線</p>
+              </div>
+            </div>
+            <p class="learn-desc">一系列高低不同的音符組成的線條，讓音樂有故事感。好的旋律聽完一次就記住了。</p>
+            <div class="learn-example">💡 聽完一首歌，你在腦海中重播的那個部分就是旋律</div>
+          </div>
+
+          <div class="learn-card">
+            <div class="learn-left">
+              <span class="learn-icon">🌊</span>
+              <div>
+                <p class="learn-name">氛圍 Atmosphere</p>
+                <p class="learn-role">音樂的空氣感</p>
+              </div>
+            </div>
+            <p class="learn-desc">像背景畫布一樣的聲音層，讓音樂有空間感和情緒深度。通常你不會特別注意，但少了它音樂會變得很乾。</p>
+            <div class="learn-example">💡 就像電影場景的環境音——雨聲、回音、遠方的聲音</div>
+          </div>
+
+        </div>
+
+        <div class="learn-tip">
+          <span>✦</span>
+          <p>這五個元素不一定每首歌都有，你在後面的步驟可以自由搭配，創造屬於你的組合。</p>
         </div>
       </div>
 
-      <!-- 輸入區 -->
-      <div class="input-section">
-        <label for="promptInput">描述你的音樂情境</label>
-        <textarea
-          id="promptInput"
-          placeholder="例如：深夜的空曠城市，霓虹燈映在積水的街道上，帶有憂鬱感的電子合成器音樂..."
-          rows="4"
-        ></textarea>
+      <!-- 步驟 1：心情 -->
+      <div class="step active" data-step="1">
+        <div class="step-header">
+          <p class="step-number">步驟 1</p>
+          <h2>你現在的感受是什麼？</h2>
+          <p class="step-hint">選一個最接近的感覺</p>
+        </div>
+        <div class="cards">
+          <button class="card" data-value="uplifting, joyful, bright electronic music">
+            <span class="card-icon">😊</span>
+            <span class="card-label">開心雀躍</span>
+            <span class="card-desc">輕快、有活力</span>
+          </button>
+          <button class="card" data-value="melancholic, emotional, deep, sad electronic music">
+            <span class="card-icon">🌧</span>
+            <span class="card-label">憂鬱沉靜</span>
+            <span class="card-desc">帶點惆悵的感覺</span>
+          </button>
+          <button class="card" data-value="energetic, powerful, intense, pumping electronic music">
+            <span class="card-icon">⚡</span>
+            <span class="card-label">充滿活力</span>
+            <span class="card-desc">想動起來的感覺</span>
+          </button>
+          <button class="card" data-value="peaceful, relaxing, ambient, calm electronic music">
+            <span class="card-icon">🌿</span>
+            <span class="card-label">放鬆平靜</span>
+            <span class="card-desc">讓心情沉澱下來</span>
+          </button>
+          <button class="card" data-value="dark, mysterious, atmospheric, haunting electronic music">
+            <span class="card-icon">🌙</span>
+            <span class="card-label">神秘黑暗</span>
+            <span class="card-desc">有點酷、有點詭異</span>
+          </button>
+        </div>
+      </div>
 
-        <div class="options">
-          <label for="duration">音樂長度</label>
+      <!-- 步驟 2：場景 -->
+      <div class="step" data-step="2">
+        <div class="step-header">
+          <p class="step-number">步驟 2</p>
+          <h2>這首歌想讓人想起哪個場景？</h2>
+          <p class="step-hint">閉上眼睛，你看到什麼？</p>
+        </div>
+        <div class="cards">
+          <button class="card" data-value="midnight city neon lights rain reflections urban">
+            <span class="card-icon">🏙</span>
+            <span class="card-label">深夜城市</span>
+            <span class="card-desc">霓虹燈、積水的街道</span>
+          </button>
+          <button class="card" data-value="summer beach ocean waves tropical sunshine">
+            <span class="card-icon">🏖</span>
+            <span class="card-label">夏日海灘</span>
+            <span class="card-desc">陽光、浪聲、清涼</span>
+          </button>
+          <button class="card" data-value="rainy day cozy coffee shop warm indoor">
+            <span class="card-icon">☕</span>
+            <span class="card-label">雨天咖啡廳</span>
+            <span class="card-desc">窗外下雨、室內溫暖</span>
+          </button>
+          <button class="card" data-value="outer space cosmos galaxy stars futuristic">
+            <span class="card-icon">🚀</span>
+            <span class="card-label">浩瀚宇宙</span>
+            <span class="card-desc">飄浮在星星之間</span>
+          </button>
+          <button class="card" data-value="deep forest nature mystical ancient trees fog">
+            <span class="card-icon">🌲</span>
+            <span class="card-label">神秘森林</span>
+            <span class="card-desc">薄霧、樹葉沙沙聲</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 步驟 3：節奏 -->
+      <div class="step" data-step="3">
+        <div class="step-header">
+          <p class="step-number">步驟 3</p>
+          <h2>你想要什麼樣的節奏感？</h2>
+          <p class="step-hint">想像音樂的速度</span></p>
+        </div>
+        <div class="cards cards-row">
+          <button class="card card-wide" data-value="slow tempo 70 BPM, dreamy, slow beat">
+            <span class="card-icon">🐌</span>
+            <span class="card-label">緩慢沉穩</span>
+            <span class="card-desc">像是慢動作影片的感覺</span>
+          </button>
+          <button class="card card-wide" data-value="medium tempo 100 BPM, smooth flow">
+            <span class="card-icon">🚶</span>
+            <span class="card-label">平穩流暢</span>
+            <span class="card-desc">不快不慢，很順的感覺</span>
+          </button>
+          <button class="card card-wide" data-value="fast tempo 140 BPM, driving beat, intense rhythm">
+            <span class="card-icon">🏃</span>
+            <span class="card-label">快速激烈</span>
+            <span class="card-desc">讓人想跟著節奏動起來</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 步驟 4：特色元素 -->
+      <div class="step" data-step="4">
+        <div class="step-header">
+          <p class="step-number">步驟 4</p>
+          <h2>加入你喜歡的聲音元素</h2>
+          <p class="step-hint">可以選多個（最少選 1 個）</p>
+        </div>
+        <div class="cards">
+          <button class="card multi-card" data-value="soft vocal hums, ethereal voice">
+            <span class="card-icon">🎤</span>
+            <span class="card-label">人聲哼唱</span>
+            <span class="card-desc">像有人在輕輕唱歌</span>
+          </button>
+          <button class="card multi-card" data-value="heavy bass, deep sub bass, bass drop">
+            <span class="card-icon">🔊</span>
+            <span class="card-label">強烈低音</span>
+            <span class="card-desc">能感受到震動的低頻</span>
+          </button>
+          <button class="card multi-card" data-value="electronic synthesizer, digital synth pads">
+            <span class="card-icon">🎹</span>
+            <span class="card-label">電子合成器</span>
+            <span class="card-desc">典型的電音合成音色</span>
+          </button>
+          <button class="card multi-card" data-value="piano melody, melodic keys">
+            <span class="card-icon">🎵</span>
+            <span class="card-label">鋼琴旋律</span>
+            <span class="card-desc">清晰的旋律線條</span>
+          </button>
+          <button class="card multi-card" data-value="ambient pads, atmospheric texture, reverb">
+            <span class="card-icon">🌊</span>
+            <span class="card-label">空靈氛圍</span>
+            <span class="card-desc">像音樂中的空氣感</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 最終：預覽 + 生成 -->
+      <div class="step" data-step="5">
+        <div class="step-header">
+          <p class="step-number">完成！</p>
+          <h2>你的音樂配方</h2>
+          <p class="step-hint">根據你的選擇，AI 會創作這樣的音樂</p>
+        </div>
+
+        <div class="recipe-card">
+          <div class="recipe-row">
+            <span class="recipe-label">感受</span>
+            <span class="recipe-value" id="recipeMood">—</span>
+          </div>
+          <div class="recipe-row">
+            <span class="recipe-label">場景</span>
+            <span class="recipe-value" id="recipeScene">—</span>
+          </div>
+          <div class="recipe-row">
+            <span class="recipe-label">節奏</span>
+            <span class="recipe-value" id="recipeRhythm">—</span>
+          </div>
+          <div class="recipe-row">
+            <span class="recipe-label">元素</span>
+            <span class="recipe-value" id="recipeElements">—</span>
+          </div>
+        </div>
+
+        <div class="duration-section">
+          <p class="duration-label">音樂長度</p>
           <div class="duration-buttons">
-            <button class="duration-btn active" data-value="8">8 秒</button>
+            <button class="duration-btn active" data-value="8">8 秒（試聽）</button>
             <button class="duration-btn" data-value="15">15 秒</button>
             <button class="duration-btn" data-value="30">30 秒</button>
           </div>
         </div>
 
         <button id="generateBtn" class="generate-btn">
-          <span class="btn-icon">▶</span>
-          <span class="btn-text">生成音樂</span>
+          <span>✦ 生成我的第一首電音</span>
         </button>
-      </div>
 
-      <!-- 狀態與結果 -->
-      <div id="statusSection" class="status-section hidden">
-        <div id="loadingState" class="loading-state">
+        <!-- 生成中 -->
+        <div id="loadingState" class="loading-state hidden">
           <div class="waveform">
             <span></span><span></span><span></span><span></span><span></span>
           </div>
-          <p id="statusText">AI 正在創作中，請稍候...</p>
+          <p id="statusText">AI 正在創作你的音樂...</p>
+          <p class="loading-sub">通常需要 30-60 秒</p>
         </div>
 
+        <!-- 結果 -->
         <div id="resultState" class="result-state hidden">
           <div class="result-card">
-            <div class="result-header">
-              <span class="result-icon">♪</span>
-              <div class="result-info">
-                <p class="result-label">生成完成</p>
-                <p id="resultPrompt" class="result-prompt"></p>
-              </div>
-            </div>
+            <p class="result-label">🎉 你的第一首電音完成了！</p>
             <audio id="audioPlayer" controls></audio>
-            <a id="downloadBtn" class="download-btn" download="generated-music.mp3">⬇ 下載音樂</a>
+            <div class="result-actions">
+              <a id="downloadBtn" class="btn-download" download="my-first-electronic-music.mp3">⬇ 下載音樂</a>
+              <button id="retryBtn" class="btn-retry">↺ 重新製作</button>
+            </div>
           </div>
         </div>
 
+        <!-- 錯誤 -->
         <div id="errorState" class="error-state hidden">
           <p id="errorText"></p>
+          <button id="retryErrorBtn" class="btn-retry">重試</button>
         </div>
       </div>
+
     </main>
 
-    <footer>
-      <p>Powered by Meta MusicGen × Replicate</p>
+    <!-- 底部導航 -->
+    <footer class="nav-footer" id="navFooter">
+      <button class="btn-back" id="backBtn">← 上一步</button>
+      <button class="btn-next" id="nextBtn">下一步 →</button>
     </footer>
+
   </div>
 
   <script src="app.js"></script>
