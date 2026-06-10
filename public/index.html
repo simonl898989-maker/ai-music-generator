@@ -307,19 +307,25 @@
         <p class="step-hint">AI 會保留原曲的旋律骨架，重新詮釋成你選的風格</p>
       </div>
 
-      <!-- 上傳區 -->
-      <div class="upload-area" id="uploadArea">
-        <input type="file" id="audioFileInput" accept="audio/*" hidden />
-        <div class="upload-content" id="uploadContent">
-          <span class="upload-icon">🎵</span>
-          <p class="upload-title">拖曳音樂到這裡</p>
-          <p class="upload-sub">或點擊選擇檔案（MP3、WAV，最大 20MB）</p>
+      <!-- 網址輸入區 -->
+      <div class="url-input-section">
+        <label class="url-label" for="audioUrlInput">音樂網址</label>
+        <div class="url-input-wrap">
+          <span class="url-icon">🔗</span>
+          <input
+            type="url"
+            id="audioUrlInput"
+            class="url-input"
+            placeholder="貼上音樂的直接連結（.mp3 / .wav）"
+          />
+          <button class="url-clear-btn hidden" id="urlClearBtn">✕</button>
         </div>
-        <div class="upload-preview hidden" id="uploadPreview">
-          <span class="upload-icon">✅</span>
-          <p class="upload-filename" id="uploadFilename"></p>
-          <audio id="uploadAudioPreview" controls></audio>
-          <button class="btn-change-file" id="changeFileBtn">更換檔案</button>
+        <p class="url-hint">支援任何可直接播放的音訊網址，例如 <span class="url-hint-eg">https://example.com/song.mp3</span></p>
+
+        <!-- 預覽 -->
+        <div class="url-preview hidden" id="urlPreview">
+          <p class="url-preview-label">試聽原曲</p>
+          <audio id="urlAudioPreview" controls></audio>
         </div>
       </div>
 
@@ -373,6 +379,7 @@
             <p class="compare-label">原曲</p>
             <audio id="remixOriginalAudio" controls></audio>
           </div>
+
           <div class="compare-arrow">→</div>
           <div class="compare-item">
             <p class="compare-label">AI 改寫版</p>

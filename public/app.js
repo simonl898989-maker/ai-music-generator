@@ -366,42 +366,39 @@ updateNavButtons();
 // ═══════════════════════════════
 //  改寫音樂
 // ═══════════════════════════════
-let uploadedFile = null;
+let remixAudioUrl = null;
 let selectedRemixStyle = null;
 let selectedRemixDuration = 15;
 let remixPollInterval = null;
 
-const uploadArea = document.getElementById('uploadArea');
-const fileInput = document.getElementById('audioFileInput');
+const urlInput = document.getElementById('audioUrlInput');
+const urlClearBtn = document.getElementById('urlClearBtn');
 
-uploadArea.addEventListener('click', () => { if (!uploadedFile) fileInput.click(); });
-uploadArea.addEventListener('dragover', e => { e.preventDefault(); uploadArea.classList.add('dragover'); });
-uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
-uploadArea.addEventListener('drop', e => {
-  e.preventDefault(); uploadArea.classList.remove('dragover');
-  const file = e.dataTransfer.files[0];
-  if (file && file.type.startsWith('audio/')) handleFileUpload(file);
-});
-fileInput.addEventListener('change', () => { if (fileInput.files[0]) handleFileUpload(fileInput.files[0]); });
+urlInput.addEventListener('input', () => {
+  const val = urlInput.value.trim();
+  urlClearBtn.classList.toggle('hidden', !val);
 
-document.getElementById('changeFileBtn')?.addEventListener('click', e => {
-  e.stopPropagation();
-  uploadedFile = null;
-  document.getElementById('uploadContent').classList.remove('hidden');
-  document.getElementById('uploadPreview').classList.add('hidden');
-  fileInput.value = '';
+  if (val.startsWith('http')) {
+    remixAudioUrl = val;
+    // 嘗試顯示預覽
+    const preview = document.getElementById('urlPreview');
+    const audio = document.getElementById('urlAudioPreview');
+    preview.classList.remove('hidden');
+    audio.src = val;
+  } else {
+    remixAudioUrl = null;
+    document.getElementById('urlPreview').classList.add('hidden');
+  }
   checkRemixReady();
 });
 
-function handleFileUpload(file) {
-  uploadedFile = file;
-  document.getElementById('uploadFilename').textContent = '✅ ' + file.name;
-  const preview = document.getElementById('uploadAudioPreview');
-  preview.src = URL.createObjectURL(file);
-  document.getElementById('uploadContent').classList.add('hidden');
-  document.getElementById('uploadPreview').classList.remove('hidden');
+urlClearBtn.addEventListener('click', () => {
+  urlInput.value = '';
+  remixAudioUrl = null;
+  urlClearBtn.classList.add('hidden');
+  document.getElementById('urlPreview').classList.add('hidden');
   checkRemixReady();
-}
+});
 
 document.querySelectorAll('.style-card').forEach(card => {
   card.addEventListener('click', () => {
@@ -421,20 +418,19 @@ document.querySelectorAll('.duration-btn[data-remix-duration]').forEach(btn => {
 });
 
 function checkRemixReady() {
-  document.getElementById('remixBtn').disabled = !(uploadedFile && selectedRemixStyle);
+  document.getElementById('remixBtn').disabled = !(remixAudioUrl && selectedRemixStyle);
 }
 
 document.getElementById('remixBtn').addEventListener('click', async () => {
-  if (!uploadedFile || !selectedRemixStyle) return;
+  if (!remixAudioUrl || !selectedRemixStyle) return;
   startRemixing();
 
-  const formData = new FormData();
-  formData.append('audio', uploadedFile);
-  formData.append('prompt', selectedRemixStyle);
-  formData.append('duration', selectedRemixDuration);
-
   try {
-    const res = await fetch('/remix', { method: 'POST', body: formData });
+    const res = await fetch('/remix', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url: remixAudioUrl, prompt: selectedRemixStyle, duration: selectedRemixDuration })
+    });
     const data = await res.json();
     if (data.error) { showRemixError(data.error); return; }
     if (data.status === 'succeeded' && data.output) { showRemixResult(data.output); return; }
@@ -468,7 +464,7 @@ function startRemixing() {
 function showRemixResult(url) {
   document.getElementById('remixLoading').classList.add('hidden');
   document.getElementById('remixResult').classList.remove('hidden');
-  document.getElementById('remixOriginalAudio').src = URL.createObjectURL(uploadedFile);
+  document.getElementById('remixOriginalAudio').src = remixAudioUrl;
   const out = document.getElementById('remixOutputAudio');
   out.src = url; out.play();
   document.getElementById('remixDownloadBtn').href = url;
