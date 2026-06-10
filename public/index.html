@@ -320,7 +320,47 @@
           />
           <button class="url-clear-btn hidden" id="urlClearBtn">✕</button>
         </div>
-        <p class="url-hint">支援任何可直接播放的音訊網址，例如 <span class="url-hint-eg">https://example.com/song.mp3</span></p>
+        <p class="url-hint">需要可直接播放的音訊網址（結尾為 .mp3 或 .wav）</p>
+
+        <!-- 使用說明 -->
+        <div class="how-to">
+          <button class="how-to-toggle" id="howToToggle">
+            <span>❓ 我有一首歌，怎麼取得網址？</span>
+            <span class="how-to-arrow">▾</span>
+          </button>
+          <div class="how-to-content hidden" id="howToContent">
+            <p class="how-to-intro">YouTube、Spotify、SoundCloud 的網址<strong>無法直接使用</strong>，需要先把音樂上傳到可以產生直接連結的平台。推薦免費服務：</p>
+
+            <div class="how-to-steps">
+              <div class="how-to-step">
+                <span class="step-num">1</span>
+                <div>
+                  <p class="step-title">準備你的音樂檔案</p>
+                  <p class="step-desc">確認你有 MP3 或 WAV 格式的音樂檔案在電腦上。</p>
+                </div>
+              </div>
+              <div class="how-to-step">
+                <span class="step-num">2</span>
+                <div>
+                  <p class="step-title">上傳到 Catbox.moe（免費）</p>
+                  <p class="step-desc">前往 <a href="https://catbox.moe" target="_blank" class="link">catbox.moe</a>，把音樂拖進去上傳，幾秒後它會給你一個 .mp3 的直接連結。</p>
+                </div>
+              </div>
+              <div class="how-to-step">
+                <span class="step-num">3</span>
+                <div>
+                  <p class="step-title">複製連結，貼到上方輸入框</p>
+                  <p class="step-desc">連結長這樣：<span class="url-hint-eg">https://files.catbox.moe/xxxxxx.mp3</span></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="how-to-note">
+              <span>💡</span>
+              <p>沒有自己的音樂？可以從 <a href="https://freemusicarchive.org" target="_blank" class="link">Free Music Archive</a> 下載免費授權音樂來練習改寫。</p>
+            </div>
+          </div>
+        </div>
 
         <!-- 預覽 -->
         <div class="url-preview hidden" id="urlPreview">

@@ -170,6 +170,24 @@ audio { width: 100%; border-radius: 8px; filter: invert(1) hue-rotate(180deg); }
 .url-preview { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-top: 12px; }
 .url-preview-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
 
+/* How-to 說明 */
+.how-to { margin-top: 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.how-to-toggle { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 13px 16px; background: none; border: none; color: var(--text-muted); font-size: 13px; cursor: pointer; transition: color 0.2s; text-align: left; }
+.how-to-toggle:hover { color: var(--text); }
+.how-to-arrow { transition: transform 0.2s; font-size: 12px; }
+.how-to-toggle.open .how-to-arrow { transform: rotate(180deg); }
+.how-to-content { padding: 0 16px 16px; }
+.how-to-intro { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 16px; }
+.how-to-intro strong { color: var(--error); }
+.how-to-steps { display: flex; flex-direction: column; gap: 12px; margin-bottom: 14px; }
+.how-to-step { display: flex; gap: 12px; align-items: flex-start; }
+.step-num { width: 24px; height: 24px; background: rgba(124,109,250,0.2); border: 1px solid var(--accent); color: var(--accent2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+.step-title { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+.step-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+.how-to-note { display: flex; gap: 8px; align-items: flex-start; background: rgba(124,109,250,0.06); border-radius: 8px; padding: 10px 12px; font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+.link { color: var(--accent2); text-decoration: none; }
+.link:hover { text-decoration: underline; }
+
 .style-cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 20px; }
 .style-card { background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; padding: 14px 10px; text-align: center; cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); }
 .style-card span:first-child { font-size: 22px; }

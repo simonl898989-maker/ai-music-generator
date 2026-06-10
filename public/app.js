@@ -392,6 +392,14 @@ urlInput.addEventListener('input', () => {
   checkRemixReady();
 });
 
+// 說明展開/收合
+document.getElementById('howToToggle').addEventListener('click', () => {
+  const content = document.getElementById('howToContent');
+  const toggle = document.getElementById('howToToggle');
+  content.classList.toggle('hidden');
+  toggle.classList.toggle('open');
+});
+
 urlClearBtn.addEventListener('click', () => {
   urlInput.value = '';
   remixAudioUrl = null;
