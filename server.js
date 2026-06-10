@@ -17,7 +17,8 @@ async function callReplicate(input) {
 }
 
 function handleReplicateError(data, res) {
-  if (data.status === 402 || (data.detail && data.detail.includes('credit'))) {
+  console.log('[Replicate response]', JSON.stringify(data));
+  if (data.status === 402 || (data.detail && (data.detail.includes('credit') || data.detail.includes('billing') || data.detail.includes('payment')))) {
     return res.status(402).json({ error: '帳號餘額不足，請至 replicate.com/account/billing 儲值' });
   }
   if (data.error || data.detail) {
