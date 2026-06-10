@@ -17,10 +17,12 @@ async function callReplicate(input) {
 }
 
 function handleReplicateError(data, res) {
-  console.log('[Replicate response]', JSON.stringify(data));
   if (data.error || data.detail) {
     const msg = data.detail || data.error;
-    return res.status(500).json({ error: '[Replicate] ' + msg });
+    if (msg.includes('credit') || msg.includes('billing') || msg.includes('payment')) {
+      return res.status(402).json({ error: '帳號餘額不足，請至 replicate.com/account/billing 儲值' });
+    }
+    return res.status(500).json({ error: msg });
   }
   return false;
 }
@@ -50,7 +52,7 @@ app.post('/remix', async (req, res) => {
   try {
     const data = await callReplicate({
       prompt, duration: parseInt(duration) || 15,
-      model_version: 'stereo-melody',
+      model_version: 'stereo-melody-large',
       input_audio: url,
       output_format: 'mp3', normalization_strategy: 'peak'
     });
