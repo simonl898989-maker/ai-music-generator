@@ -33,7 +33,7 @@ app.post('/generate', async (req, res) => {
     const data = await callReplicate({
       prompt, duration: duration || 8,
       model_version: 'stereo-large', output_format: 'mp3', normalization_strategy: 'peak',
-      classifier_free_guidance: 5, multi_band_diffusion: true
+      classifier_free_guidance: 5
     });
     if (handleReplicateError(data, res)) return;
     res.json({ id: data.id, status: data.status, output: data.output });
@@ -59,7 +59,7 @@ app.post('/remix', upload.single('audio'), async (req, res) => {
       model_version: 'stereo-melody-large',
       input_audio: dataUri,
       output_format: 'mp3', normalization_strategy: 'peak',
-      classifier_free_guidance: 5, multi_band_diffusion: true
+      classifier_free_guidance: 5
     });
     if (handleReplicateError(data, res)) return;
     res.json({ id: data.id, status: data.status, output: data.output });
