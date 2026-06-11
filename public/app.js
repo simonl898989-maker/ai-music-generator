@@ -366,44 +366,58 @@ updateNavButtons();
 // ═══════════════════════════════
 //  改寫音樂
 // ═══════════════════════════════
-let remixAudioUrl = null;
+let remixAudioFile = null;
+let remixLocalBlobUrl = null;
 let selectedRemixStyle = null;
 let selectedRemixDuration = 15;
 let remixPollInterval = null;
 
-const urlInput = document.getElementById('audioUrlInput');
-const urlClearBtn = document.getElementById('urlClearBtn');
+const fileInput = document.getElementById('audioFileInput');
+const dropZone = document.getElementById('fileDropZone');
 
-urlInput.addEventListener('input', () => {
-  const val = urlInput.value.trim();
-  urlClearBtn.classList.toggle('hidden', !val);
+function handleFileSelect(file) {
+  if (!file) return;
+  remixAudioFile = file;
+  if (remixLocalBlobUrl) URL.revokeObjectURL(remixLocalBlobUrl);
+  remixLocalBlobUrl = URL.createObjectURL(file);
 
-  if (val.startsWith('http')) {
-    remixAudioUrl = val;
-    // 嘗試顯示預覽
-    const preview = document.getElementById('urlPreview');
-    const audio = document.getElementById('urlAudioPreview');
-    preview.classList.remove('hidden');
-    audio.src = val;
-  } else {
-    remixAudioUrl = null;
-    document.getElementById('urlPreview').classList.add('hidden');
-  }
+  document.getElementById('filePrompt').classList.add('hidden');
+  document.getElementById('fileChosen').classList.remove('hidden');
+  document.getElementById('fileChosenName').textContent = file.name;
+
+  const preview = document.getElementById('urlPreview');
+  const audio = document.getElementById('urlAudioPreview');
+  preview.classList.remove('hidden');
+  audio.src = remixLocalBlobUrl;
+
   checkRemixReady();
+}
+
+fileInput.addEventListener('change', () => handleFileSelect(fileInput.files[0]));
+
+dropZone.addEventListener('click', (e) => {
+  if (!e.target.closest('#fileClearBtn')) fileInput.click();
 });
 
-// 說明展開/收合
-document.getElementById('howToToggle').addEventListener('click', () => {
-  const content = document.getElementById('howToContent');
-  const toggle = document.getElementById('howToToggle');
-  content.classList.toggle('hidden');
-  toggle.classList.toggle('open');
+dropZone.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  dropZone.classList.add('drag-over');
+});
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+dropZone.addEventListener('drop', (e) => {
+  e.preventDefault();
+  dropZone.classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file) handleFileSelect(file);
 });
 
-urlClearBtn.addEventListener('click', () => {
-  urlInput.value = '';
-  remixAudioUrl = null;
-  urlClearBtn.classList.add('hidden');
+document.getElementById('fileClearBtn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  remixAudioFile = null;
+  if (remixLocalBlobUrl) { URL.revokeObjectURL(remixLocalBlobUrl); remixLocalBlobUrl = null; }
+  fileInput.value = '';
+  document.getElementById('filePrompt').classList.remove('hidden');
+  document.getElementById('fileChosen').classList.add('hidden');
   document.getElementById('urlPreview').classList.add('hidden');
   checkRemixReady();
 });
@@ -426,19 +440,20 @@ document.querySelectorAll('.duration-btn[data-remix-duration]').forEach(btn => {
 });
 
 function checkRemixReady() {
-  document.getElementById('remixBtn').disabled = !(remixAudioUrl && selectedRemixStyle);
+  document.getElementById('remixBtn').disabled = !(remixAudioFile && selectedRemixStyle);
 }
 
 document.getElementById('remixBtn').addEventListener('click', async () => {
-  if (!remixAudioUrl || !selectedRemixStyle) return;
+  if (!remixAudioFile || !selectedRemixStyle) return;
   startRemixing();
 
   try {
-    const res = await fetch('/remix', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ url: remixAudioUrl, prompt: selectedRemixStyle, duration: selectedRemixDuration })
-    });
+    const formData = new FormData();
+    formData.append('audio', remixAudioFile);
+    formData.append('prompt', selectedRemixStyle);
+    formData.append('duration', selectedRemixDuration);
+
+    const res = await fetch('/remix', { method: 'POST', body: formData });
     const data = await res.json();
     if (data.error) { showRemixError(data.error); return; }
     if (data.status === 'succeeded' && data.output) { showRemixResult(data.output); return; }
@@ -472,7 +487,7 @@ function startRemixing() {
 function showRemixResult(url) {
   document.getElementById('remixLoading').classList.add('hidden');
   document.getElementById('remixResult').classList.remove('hidden');
-  document.getElementById('remixOriginalAudio').src = remixAudioUrl;
+  document.getElementById('remixOriginalAudio').src = remixLocalBlobUrl;
   const out = document.getElementById('remixOutputAudio');
   out.src = url; out.play();
   document.getElementById('remixDownloadBtn').href = url;

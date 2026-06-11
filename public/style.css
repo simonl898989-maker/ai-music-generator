@@ -199,4 +199,15 @@ audio { width: 100%; border-radius: 8px; filter: invert(1) hue-rotate(180deg); }
 .compare-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
 .compare-arrow { font-size: 20px; color: var(--accent); flex-shrink: 0; }
 
+/* ── 檔案上傳區 ── */
+.file-drop-zone { background: var(--surface); border: 2px dashed var(--border); border-radius: 14px; padding: 28px 20px; text-align: center; cursor: pointer; transition: all 0.2s; position: relative; }
+.file-drop-zone:hover, .file-drop-zone.drag-over { border-color: var(--accent); background: rgba(124,109,250,0.06); }
+.file-drop-zone input[type="file"] { display: none; }
+.file-upload-icon { font-size: 32px; display: block; margin-bottom: 10px; }
+.file-upload-text { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+.file-chosen-icon { font-size: 28px; display: block; margin-bottom: 8px; }
+.file-chosen-name { font-size: 14px; font-weight: 600; color: var(--accent2); margin-bottom: 12px; word-break: break-all; }
+.file-clear-btn { background: var(--surface2); border: 1px solid var(--border); color: var(--text-muted); padding: 6px 14px; border-radius: 8px; font-size: 12px; cursor: pointer; transition: all 0.2s; }
+.file-clear-btn:hover { border-color: var(--accent); color: var(--text); }
+
 .hidden { display: none !important; }

@@ -1,6 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const fetch = require('node-fetch');
+const multer = require('multer');
+const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 25 * 1024 * 1024 } });
 const app = express();
 app.use(express.json());
 app.use(express.static('public'));
@@ -39,17 +41,22 @@ app.post('/generate', async (req, res) => {
   }
 });
 
-// 貼上音樂網址並改寫
-app.post('/remix', async (req, res) => {
-  const { url, prompt, duration } = req.body;
-  if (!url) return res.status(400).json({ error: '請貼上音樂網址' });
+// 上傳音樂檔案並改寫
+app.post('/remix', upload.single('audio'), async (req, res) => {
+  const { prompt, duration } = req.body;
+  const file = req.file;
+  if (!file) return res.status(400).json({ error: '請上傳音樂檔案' });
   if (!prompt) return res.status(400).json({ error: '請選擇改寫風格' });
+
+  const mimeType = file.mimetype || 'audio/mpeg';
+  const base64 = file.buffer.toString('base64');
+  const dataUri = `data:${mimeType};base64,${base64}`;
 
   try {
     const data = await callReplicate({
       prompt, duration: parseInt(duration) || 15,
       model_version: 'stereo-melody-large',
-      input_audio: url,
+      input_audio: dataUri,
       output_format: 'mp3', normalization_strategy: 'peak'
     });
     if (handleReplicateError(data, res)) return;
